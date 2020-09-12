@@ -23,21 +23,11 @@ def getPiece(piece, row, col, image):
     global currentPiece
     if not currentPiece[2] and chessBoard[row][col] != 0:
         currentPiece = [image, piece, True, row, col]
-
-
-def movePiece(emprySlot, row, col):
-    if currentPiece[2]:
+    else:
         chessBoard[row][col].configure(image=currentPiece[0], width=64, height=64, command=lambda r=row,
                                        c=col, image=currentPiece[0]: getPiece(chessBoard[r][c], r, c, image))
         chessBoard[currentPiece[3]][currentPiece[4]].configure(image='', height=4, width=8, command=lambda: movePiece(
             chessBoard[currentPiece[1]][currentPiece[2]], currentPiece[3], currentPiece[4]))
-
-
-# Define button
-def createButton(frame, color, photo, w, h, command):
-    b = Button(frame, width=w, height=h, image=photo,
-               bg=color, command=command)
-    return b
 
 
 root = Tk()
@@ -49,92 +39,28 @@ piece_images = get_pieces_images()
 board = Board(root)
 board.grid(row=0, column=0)
 board.grid_propagate(0)
-chessBoard = board.chessBoard
+emptyBoard = board.chessBoard
 
-# DRAW BOARD
-btnColor = '#27496d'
-for row in range(8):
-    for column in range(8):
-        currentImage = chess[row][column]
-        if currentImage == 'blackPawn':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            blackPieces.append(chessBoard[row][column])
 
-        elif currentImage == 'pawn':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            whitePieces.append(chessBoard[row][column])
+def renderChessBoard(row):
+    for i in range(8):
+        btnColor = '#27496d'
+        if (row[0] % 2 == 0 and i % 2 == 0) or (row[0] % 2 != 0 and i % 2 != 0):
+            btnColor = '#fff'
 
-        elif currentImage == 'rook':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            whitePieces.append(chessBoard[row][column])
+        currentImage = chess[row[0]][i]
+        currentImage = piece_images[currentImage]
+        row[1].append(createButton(board, btnColor,
+                                   currentImage,
+                                   function=lambda row=row[0], column=i:
+                                   getPiece(chessBoard[row][column], row, column, currentImage)))
 
-        elif currentImage == 'blackRook':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            blackPieces.append(chessBoard[row][column])
+        row[1][i].place(x=board.slotWidth*i, y=board.slotHeight*row[0])
 
-        elif currentImage == 'bishop':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            whitePieces.append(chessBoard[row][column])
+    return row[1]
 
-        elif currentImage == 'blackBishop':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            blackPieces.append(chessBoard[row][column])
 
-        elif currentImage == 'king':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            whitePieces.append(chessBoard[row][column])
-
-        elif currentImage == 'blackKing':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            blackPieces.append(chessBoard[row][column])
-
-        elif currentImage == 'knight':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            whitePieces.append(chessBoard[row][column])
-
-        elif currentImage == 'blackKnight':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            blackPieces.append(chessBoard[row][column])
-
-        elif currentImage == 'queen':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            whitePieces.append(chessBoard[row][column])
-
-        elif currentImage == 'blackQueen':
-            chessBoard[row].append(createButton(board, btnColor, piece_images[currentImage], 64, 64,
-                                                command=lambda r=row, c=column, currentImg=piece_images[currentImage]:
-                                                getPiece(chessBoard[r][c], r, c, currentImg)))
-            blackPieces.append(chessBoard[row][column])
-
-        else:
-            chessBoard[row].append(createButton(board, btnColor, '', 8, 4,
-                                                command=lambda r=row, c=column:
-                                                movePiece(chessBoard[r][c], r, c)))
-
-        chessBoard[row][column].place(
-            x=board.slotWidth*column, y=board.slotHeight*row)
+chessBoard = list(map(renderChessBoard, enumerate(emptyBoard)))
 
 board.update()
 root.mainloop()

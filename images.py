@@ -16,4 +16,5 @@ def get_pieces_images():
         "knight": ImageTk.PhotoImage(Image.open("pieces/knight.png")),
         "blackQueen": ImageTk.PhotoImage(Image.open("pieces/blackQueen.png")),
         "queen": ImageTk.PhotoImage(Image.open("pieces/queen.png")),
+        0: "",
     }
