@@ -5,7 +5,7 @@ from tkinter import *
 
 class Board(Frame):
     def __init__(self, root, slotWidth=64, slotHeight=64):
-        self.b = [[], [], [], [], [], [], [], []]
+        self.chessBoard = [[], [], [], [], [], [], [], []]
         self.root = root
         self.slotWidth = slotWidth
         self.slotHeight = slotHeight
