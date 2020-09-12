@@ -1,7 +1,7 @@
 from tkinter import *
-from chessBoard import Board
-from button import createButton
-from images import get_pieces_images
+from ChessBoard import Board
+from Button import createButton
+from Images import get_pieces_images
 from PIL import ImageTk, Image
 
 # CHESS BOARD
@@ -40,18 +40,17 @@ def createButton(frame, color, photo, w, h, command):
     return b
 
 
-# Create Root
 root = Tk()
 root.geometry('600x600')
 root.title("CHESS")
 
-# Get Images
 piece_images = get_pieces_images()
-# CREATE BOARD
+
 board = Board(root)
 board.grid(row=0, column=0)
 board.grid_propagate(0)
 chessBoard = board.chessBoard
+
 # DRAW BOARD
 btnColor = '#27496d'
 for row in range(8):
