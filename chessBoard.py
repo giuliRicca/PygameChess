@@ -1,5 +1,4 @@
 from tkinter import *
-from Pieces_.Pawn import Pawn
 from Pieces import get_pieces_images
 # BOARD CLASS
 chess = [['BlackRook', 'BlackKnight', 'BlackBishop', 'BlackQueen', 'BlackKing', 'BlackBishop', 'BlackKnight', 'BlackRook'],
@@ -19,8 +18,7 @@ class Board(Frame):
         self.width = slotWidth*8
         self.height = slotHeight*8
         self.chess = chess
-        self.piece_types = get_pieces_images(self.root)
-
+        self.piece_types = get_pieces_images()
         self.initUI()
 
         Frame.__init__(self, root, width=self.width, height=self.height)
@@ -28,25 +26,20 @@ class Board(Frame):
     def initUI(self):
         self.chessBoard = [[] for i in range(len(self.chess))]
         self.chessBoard = list(
-            map(self.render_row, enumerate(self.chessBoard)))
+            map(self.populate_row, enumerate(self.chessBoard)))
+        self.selected_pieces = list(
+            filter(self.find_selected_in_row, enumerate(self.chessBoard)))
 
-        self.populate_chess_board()
-        self.chessBoard = list(
-            map(self.render_row, enumerate(self.chessBoard)))
+    def populate_row(self, row):
+        for column in range(8):
+            row[1].append(self.piece_types[chess[row[0]][column]](
+                self.root, row=row[0], col=column))
+            row[1][column].grid(row=row[0], column=column)
+        return row[1]
 
-    def render_row(self, chess_row):
-        return list(map(lambda button:
-                        button[1].grid(row=chess_row[0],
-                                       column=button[0]),
-                        enumerate(chess_row[1])))
-
-    def populate_chess_board(self):
-        for row in range(len(self.chessBoard)):
-            for col in range(len(self.chessBoard)):
-                currentImage = self.chess[row][col]
-                if currentImage in self.piece_types:
-                    self.chessBoard[row].append(
-                        self.piece_types[currentImage](self.root, row=row))
-                else:
-                    self.chessBoard[row].append(
-                        Button(self.root, width=8, height=4))
+    def find_selected_in_row(self, row):
+        for col in range(8):
+            self.chessBoard[row[0]][col].chessBoard = self.chessBoard
+            if self.chessBoard[row[0]][col].selected:
+                return True
+        return False

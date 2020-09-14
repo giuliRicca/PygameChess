@@ -6,9 +6,10 @@ from Pieces_.Queen import Queen
 from Pieces_.Bishop import Bishop
 from Pieces_.King import King
 from Pieces_.Knight import Knight
+from Pieces_.BlankPiece import Blank
 
 
-def get_pieces_images(root):
+def get_pieces_images():
     return {
         "BlackPawn": Pawn,
         "Pawn": Pawn,
@@ -22,4 +23,5 @@ def get_pieces_images(root):
         "Knight": Knight,
         "BlackQueen": Queen,
         "Queen": Queen,
+        "0": Blank
     }

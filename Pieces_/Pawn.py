@@ -3,19 +3,19 @@ from PIL import ImageTk, Image
 
 
 class Pawn(Piece):
-    def __init__(self, master=None, row=None):
+    def __init__(self, master=None, row=None, col=None, chessBoard=None, selected=False):
         self.black = False
-        self.row = row
-        self.set_color_by_row()
-        self.columns = [n for n in range(8)]
-        super().__init__(master=master, image=self.image,
-                         row=self.row, col=self.columns)
+        self.position = [row, col]
+        self.chessBoard = chessBoard
+        self.set_row_by_color()
 
-    def set_color_by_row(self):
-        if self.row == 1:
-            self.row = [6]
+        self.selected = selected
+        super().__init__(master=master, image=self.image,
+                         chessBoard=self.chessBoard, selected=self.selected, pos=self.position)
+
+    def set_row_by_color(self):
+        if self.position[0] == 1:
             self.image = ImageTk.PhotoImage(Image.open("pieces/blackPawn.png"))
             return
         else:
-            self.row = [1]
-            self.image = ImageTk.PhotoImage(Image.open("pieces/pawn.png")),
+            self.image = ImageTk.PhotoImage(Image.open("pieces/pawn.png"))

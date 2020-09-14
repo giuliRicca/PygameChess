@@ -3,13 +3,13 @@ from PIL import ImageTk, Image
 
 
 class Bishop(Piece):
-    def __init__(self, master=None, row=None):
+    def __init__(self, master=None, row=None, col=None, chessBoard=None):
         self.black = False
         self.row = row
+        self.col = col
+        self.selected = False
         self.set_color_by_row()
-        self.columns = [0, 7]
-        super().__init__(master=master, image=self.image,
-                         row=self.row, col=self.columns)
+        super().__init__(master=master, image=self.image)
 
     def set_color_by_row(self):
         if self.row == 0:
